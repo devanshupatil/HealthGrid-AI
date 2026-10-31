@@ -1,95 +1,179 @@
-# HealthGrid AI
+<div align="center">
 
-**Privacy-Preserving Federated Machine Learning for Healthcare**
+# ✦ HEALTHGRID AI ✦
 
-First Project Title Seminar, Dept. of AI & Data Science, KDK College of Engineering, Nagpur.
+### Privacy-Preserving Federated Machine Learning for Healthcare
 
-**Team:** Aditya Rathod, Purushottam Ghatul, Shweta Supe, Shweta Patil
-**Guide:** Prof. Kartik Ingole
+*Hospitals learn together. Patient data never leaves home.*
 
-## About
+<br/>
 
-Healthcare data is spread across hospitals and holds sensitive patient information. Collecting it in one central database raises privacy, security and data-sharing concerns.
+![React](https://img.shields.io/badge/React-19-f2ca50?style=for-the-badge&logo=react&logoColor=090e17&labelColor=0f131d)
+![Vite](https://img.shields.io/badge/Vite-8-f2ca50?style=for-the-badge&logo=vite&logoColor=090e17&labelColor=0f131d)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-3-f2ca50?style=for-the-badge&logo=tailwindcss&logoColor=090e17&labelColor=0f131d)
+![FedAvg](https://img.shields.io/badge/Algorithm-FedAvg-58e7aa?style=for-the-badge&labelColor=0f131d)
+![Status](https://img.shields.io/badge/Status-Academic_Prototype-d4af37?style=for-the-badge&labelColor=0f131d)
 
-HealthGrid AI uses **Federated Learning** instead. Each hospital trains a model on its own data and sends only the learned model update to a federated server. The server combines the updates with **Federated Averaging (FedAvg)** into a global model and sends it back for the next round. Raw patient records never leave the hospital.
+<br/>
 
-This is an academic prototype. It runs entirely in the browser with **synthetic data** for three simulated hospitals (Hospital A, B and C).
+**KDK College of Engineering, Nagpur** &nbsp;·&nbsp; Dept. of AI & Data Science
+First Project Title Seminar
 
-## Features
+</div>
 
-- **Home page** with project information, objectives, methodology, roadmap, literature survey and team, plus a Login button
-- **Dashboard** with global accuracy, training progress, the federated learning flow and a training log
-- **Hospitals / Clients** with status, dataset size and details for each site
-- **Federated Training** to start, pause, step and reset rounds, with per-hospital progress
-- **Model Performance** with accuracy and loss charts for the global model and each hospital
-- **Dataset** with synthetic datasets per hospital, a data profile, and a Regenerate button
-- **Logs & Privacy** with the activity log, what is shared, and privacy techniques
-- **Settings** for local epochs, learning rate and total rounds
-- **Predictions** to try patient values and see the risk estimated by the global model
-- **About the Project** with abstract, problem statement, objectives, methodology and literature survey
+---
 
-## How the simulation works
+## ◆ Overview
 
-- Three hospitals get different synthetic patient data (non-IID), with four features: age, BMI, glucose and blood pressure.
-- Each hospital trains a logistic regression model locally with mini-batch SGD.
-- The server averages the updates weighted by each hospital's record count (FedAvg).
-- The global model is tested on held-out records from every hospital.
+Healthcare data is scattered across hospitals and holds some of the most sensitive information there is. Pooling it into one central database creates privacy, security and data-sharing risks.
 
-On the default settings the global model rises from about 47% accuracy at round 0 to about 79% after the rounds complete.
+**HealthGrid AI** takes the opposite approach. Instead of moving data to the model, it moves the model to the data.
 
-## Tech stack
+1. Each hospital trains a model **locally** on its own records.
+2. Only the learned **model update** is sent to a federated server.
+3. The server combines the updates with **Federated Averaging (FedAvg)** into a stronger global model.
+4. The global model returns to every hospital for the next round.
 
-- React 19 + JavaScript
-- Vite
-- Tailwind CSS 3
-- lucide-react, Radix Slot, class-variance-authority (UI components)
+> **Raw patient records never leave the hospital.**
 
-## Getting started
+This prototype runs entirely in the browser on **synthetic data** for three simulated hospitals. No backend, no real patient information.
 
-Requires [Bun](https://bun.sh) (Node.js also works).
+---
+
+## ◆ How It Works
+
+```mermaid
+flowchart LR
+    A["🏥 Hospital A<br/>local data"] -->|model update| S
+    B["🏥 Hospital B<br/>local data"] -->|model update| S
+    C["🏥 Hospital C<br/>local data"] -->|model update| S
+    S(("FedAvg<br/>Server")) -->|global model| A
+    S -->|global model| B
+    S -->|global model| C
+```
+
+| Step | What happens |
+|:--|:--|
+| **01 · Local training** | Each hospital trains logistic regression with mini-batch SGD on its own data. |
+| **02 · Send update** | Only the model weights travel to the server, never patient records. |
+| **03 · Aggregate** | The server averages updates, weighted by each hospital's record count. |
+| **04 · Redistribute** | The improved global model is sent back, then the next round begins. |
+
+On the default settings the global model climbs from about **47%** accuracy at round 0 to about **79%** on held-out records.
+
+---
+
+## ◆ Features
+
+| Page | Purpose |
+|:--|:--|
+| **Home** | Project story, objectives, methodology, roadmap, literature survey, team, and a Login button |
+| **Dashboard** | Global accuracy, training progress, live learning flow, training log |
+| **Hospitals / Clients** | Status, dataset size and details for Hospital A, B and C |
+| **Federated Training** | Start, pause, step and reset rounds with per-hospital progress |
+| **Model Performance** | Accuracy and loss charts for the global model and each hospital |
+| **Dataset** | Synthetic datasets, data profile rings and bars, regenerate on demand |
+| **Logs & Privacy** | Activity log, what is shared, active and planned privacy techniques |
+| **Settings** | Local epochs, learning rate and total rounds |
+| **Predictions** | Adjust patient values and read the risk estimated by the global model |
+| **About the Project** | Abstract, problem statement, objectives, methodology, literature |
+
+**Design:** a dark and gold luxury theme with an animated background, scroll reveals, and a sliding-icon button style.
+
+---
+
+## ◆ Quick Start
+
+Requires [Bun](https://bun.sh). Node.js works too.
 
 ```bash
-cd FrountEnd
+git clone https://github.com/devanshupatil/HealthGrid-AI.git
+cd HealthGrid-AI/FrountEnd
+
 bun install
-bun run dev        # start the dev server
-bun run build      # production build into dist/
-bun run preview    # preview the production build
+bun run dev        # development server
+bun run build      # production build → dist/
+bun run preview    # preview the build
 ```
 
-## Project structure
+Open the home page, press **Login**, enter any username and password, and start training from the dashboard.
 
-```
+---
+
+## ◆ Project Structure
+
+```text
 FrountEnd/
 ├── index.html
-├── tailwind.config.js        # theme tokens (colours, fonts, spacing)
+├── tailwind.config.js          Theme tokens: colours, fonts, spacing
 └── src/
-    ├── App.jsx               # login gate, page routing, shared training state
+    ├── App.jsx                 Login gate, page routing, shared training state
     ├── fl/
-    │   ├── engine.js         # synthetic data, logistic regression, FedAvg
-    │   └── useFederation.js  # training rounds as a React hook
-    ├── pages/                # Home, Hospitals, Training, Performance, Dataset,
-    │                         # Logs, Settings, Predictions, Project
-    ├── components/           # Sidebar, TopBar, charts, illustrations
-    │   └── ui/               # button, button-with-icon, logout-button
+    │   ├── engine.js           Synthetic data, logistic regression, FedAvg
+    │   └── useFederation.js    Training rounds as a React hook
+    ├── pages/                  Home, Hospitals, Training, Performance,
+    │                           Dataset, Logs, Settings, Predictions, Project
+    ├── components/             Sidebar, TopBar, charts, illustrations
+    │   └── ui/                 Button, button-with-icon, logout-button
     └── lib/utils.js
 ```
 
-## Notes and limits
+---
 
-- **Login is a demo.** Any username and password works. Nothing is stored or sent, and refreshing the page returns to the home page.
-- **Privacy techniques:** secure aggregation and differential privacy are shown as *Planned*. They are not implemented.
-- **Not medical advice.** Predictions come from synthetic data and are for demonstration only.
+## ◆ Privacy Techniques
 
-## Future work
+| Technique | Status |
+|:--|:--:|
+| Local training, data stays at each hospital | ✅ Active |
+| Federated Averaging (FedAvg) | ✅ Active |
+| Secure aggregation | 🕓 Planned |
+| Differential privacy | 🕓 Planned |
+| Authorized EHR / API integration | 🕓 Planned |
 
-- Secure aggregation and differential privacy
-- Study how different hospital data distributions affect the global model
-- Authorized EHR / API integration for real-world deployment
+---
 
-## References
+## ◆ Roadmap
 
-- H. B. McMahan et al., *Communication-Efficient Learning of Deep Networks from Decentralized Data* (2017)
-- T. S. Brisimi et al., *Federated Learning of Predictive Models from Federated Electronic Health Records* (2018)
-- N. Rieke et al., *The Future of Digital Health with Federated Learning* (2020)
-- M. J. Sheller et al., *Federated Learning in Medicine: Facilitating Multi-Institutional Collaborations Without Sharing Patient Data* (2020)
-- P. Kairouz et al., *Advances and Open Problems in Federated Learning* (2021)
+- [x] Working prototype with three simulated hospital clients
+- [x] Multiple FedAvg rounds with performance comparison
+- [x] Dashboard for training status, performance and predictions
+- [ ] Study how different hospital data distributions affect the global model
+- [ ] Secure aggregation and differential privacy
+- [ ] Authorized EHR / API integration for real-world deployment
+
+---
+
+## ◆ Notes
+
+- **The login is a demo.** Any username and password works. Nothing is stored or sent, and a refresh returns you to the home page.
+- **Predictions are not medical advice.** They come from synthetic data and exist only to demonstrate the model.
+
+---
+
+## ◆ Research Foundation
+
+| Author | Year | Work |
+|:--|:--:|:--|
+| H. B. McMahan | 2017 | *Communication-Efficient Learning of Deep Networks from Decentralized Data* |
+| T. S. Brisimi | 2018 | *Federated Learning of Predictive Models from Federated Electronic Health Records* |
+| N. Rieke | 2020 | *The Future of Digital Health with Federated Learning* |
+| M. J. Sheller | 2020 | *Federated Learning in Medicine: Facilitating Multi-Institutional Collaborations Without Sharing Patient Data* |
+| P. Kairouz | 2021 | *Advances and Open Problems in Federated Learning* |
+
+---
+
+<div align="center">
+
+## ◆ Team
+
+**Aditya Rathod** · **Purushottam Ghatul** · **Shweta Supe** · **Shweta Patil**
+
+Under the guidance of **Prof. Kartik Ingole**
+
+<br/>
+
+*KDK College of Engineering, Nagpur*
+
+<sub>✦ HealthGrid AI · Academic prototype · Built with care for patient privacy ✦</sub>
+
+</div>
