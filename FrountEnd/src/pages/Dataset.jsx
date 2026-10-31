@@ -26,7 +26,7 @@ export default function Dataset({ fed }) {
 
       <div className="p-space-lg rounded-xl bg-surface-container-low shadow-xl mb-space-md">
         <div className="overflow-x-auto">
-          <table className="w-full text-left font-body-sm text-body-sm">
+          <table className="w-full min-w-[680px] text-left font-body-sm text-body-sm">
             <thead>
               <tr className="text-outline font-label-caps text-label-caps uppercase tracking-wider">
                 {['Hospital', 'Dataset Name', 'Total Records', 'Features', 'Status', 'Last Updated', 'Action'].map((h) => <th key={h} className={TH}>{h}</th>)}

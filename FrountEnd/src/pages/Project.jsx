@@ -109,7 +109,7 @@ export default function Project() {
       <section className={CARD}>
         <h2 className={H}>Literature Survey</h2>
         <div className="overflow-x-auto">
-          <table className="w-full text-left font-body-sm text-body-sm">
+          <table className="w-full min-w-[560px] text-left font-body-sm text-body-sm">
             <thead>
               <tr className="text-outline font-label-caps text-label-caps uppercase tracking-wider">
                 <th className="pb-space-sm">Sr.</th><th className="pb-space-sm">Article Reviewed</th><th className="pb-space-sm">Gap</th>

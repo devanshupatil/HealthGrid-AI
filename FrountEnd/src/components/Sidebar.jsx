@@ -1,4 +1,5 @@
 import Icon from './Icon'
+import { LogoutButton } from '@/components/ui/logout-button'
 
 const NAV = [
   { title: 'Federated Learning', items: [
@@ -19,9 +20,11 @@ const NAV = [
 const IDLE = 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface'
 const ACTIVE = 'bg-surface-container-high text-primary font-semibold border-l-2 border-primary shadow-[inset_0_0_12px_rgba(212,175,55,0.06)]'
 
-export default function Sidebar({ page, setPage, round, totalRounds, paramsPerUpdate }) {
+export default function Sidebar({ page, setPage, round, totalRounds, paramsPerUpdate, open, onClose, user, onLogout }) {
   return (
-    <aside className="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest/90 backdrop-blur-2xl z-50 flex flex-col justify-between shadow-[4px_0_24px_rgba(0,0,0,0.5)] border-r border-outline-variant/30">
+    <>
+    <div className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden transition-opacity duration-700 ${open ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={onClose} aria-hidden="true" />
+    <aside className={`fixed right-0 lg:right-auto lg:left-0 top-0 h-full w-72 bg-surface-container-lowest/95 lg:bg-surface-container-lowest/90 backdrop-blur-2xl z-50 flex flex-col justify-between shadow-[4px_0_24px_rgba(0,0,0,0.5)] border-r border-outline-variant/30 transition-transform duration-700 ease-in-out lg:translate-x-0 ${open ? 'translate-x-0' : 'translate-x-full'}`}>
       <div className="flex flex-col flex-1 overflow-y-auto">
         <div className="h-20 px-gutter flex items-center justify-between border-b border-outline-variant/20">
           <div className="flex items-center gap-space-sm">
@@ -33,7 +36,8 @@ export default function Sidebar({ page, setPage, round, totalRounds, paramsPerUp
               <span className="font-telemetry-mono-sm text-telemetry-mono-sm text-outline tracking-wider uppercase">Federated Healthcare ML</span>
             </div>
           </div>
-          <div className="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_#58e7aa]" />
+          <div className="hidden lg:block w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_#58e7aa]" />
+          <button onClick={onClose} aria-label="Close menu" className="lg:hidden text-outline hover:text-primary"><Icon name="close" /></button>
         </div>
 
         <nav className="flex flex-col gap-space-lg px-gutter py-space-lg">
@@ -58,7 +62,7 @@ export default function Sidebar({ page, setPage, round, totalRounds, paramsPerUp
       </div>
 
       <div className="p-gutter">
-        <div className="p-space-md rounded-xl bg-surface-container-low/70 border border-outline-variant/30 backdrop-blur-md relative overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.4)]">
+        <div className="[@media(max-height:820px)]:hidden p-space-md rounded-xl bg-surface-container-low/70 border border-outline-variant/30 backdrop-blur-md relative overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.4)]">
           <div className="absolute -right-6 -bottom-6 w-20 h-20 bg-primary/5 rounded-full blur-xl pointer-events-none" />
           <div className="flex items-center gap-space-sm mb-space-sm">
             <div className="w-6 h-6 rounded-full bg-primary-container/20 border border-primary/40 flex items-center justify-center">
@@ -76,7 +80,12 @@ export default function Sidebar({ page, setPage, round, totalRounds, paramsPerUp
           </div>
           <div className="mt-space-xs font-telemetry-mono-sm text-telemetry-mono-sm text-outline">{paramsPerUpdate} weights per update</div>
         </div>
+        <div className="mt-space-md flex flex-col gap-space-xs">
+          <span className="font-telemetry-mono-sm text-telemetry-mono-sm text-outline truncate">Signed in as {user}</span>
+          <LogoutButton onClick={onLogout} className="w-full" />
+        </div>
       </div>
     </aside>
+    </>
   )
 }

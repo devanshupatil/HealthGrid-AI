@@ -27,7 +27,7 @@ export default function Registry({ hospitals, history, localLoss, phase, round }
           Each hospital has a different patient mix, so the global model is checked against every site's own held-out records. No patient records leave a hospital.
         </p>
         <div className="overflow-x-auto">
-          <table className="w-full text-left font-body-sm text-body-sm">
+          <table className="w-full min-w-[640px] text-left font-body-sm text-body-sm">
             <thead>
               <tr className="text-outline font-label-caps text-label-caps uppercase tracking-wider">
                 {HEAD.map((h, i) => (

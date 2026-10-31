@@ -25,6 +25,7 @@ const PARAMS_PER_UPDATE = FEATURES.length + 1
 export default function App() {
   const [page, setPage] = useState('dashboard')
   const [user, setUser] = useState(null)
+  const [menuOpen, setMenuOpen] = useState(false)
   const fed = useFederation()
   const busy = fed.phase !== 'idle'
   const TOTAL_ROUNDS = fed.config.totalRounds
@@ -34,10 +35,10 @@ export default function App() {
   return (
     <>
       <LuxBackground />
-      <Sidebar page={page} setPage={setPage} round={fed.round} totalRounds={TOTAL_ROUNDS} paramsPerUpdate={PARAMS_PER_UPDATE} />
-      <div className="pl-72 flex flex-col min-h-screen relative z-10">
-        <TopBar phase={fed.phase} round={fed.round} user={user} onLogout={() => { setUser(null); setPage('dashboard') }} />
-        <main className="w-full pt-28 px-gutter-desktop py-space-xl flex-1">
+      <Sidebar user={user} onLogout={() => { setUser(null); setPage('dashboard'); setMenuOpen(false) }} open={menuOpen} onClose={() => setMenuOpen(false)} page={page} setPage={(p) => { setPage(p); setMenuOpen(false) }} round={fed.round} totalRounds={TOTAL_ROUNDS} paramsPerUpdate={PARAMS_PER_UPDATE} />
+      <div className="lg:pl-72 flex flex-col min-h-screen relative z-10">
+        <TopBar onMenu={() => setMenuOpen(true)} phase={fed.phase} round={fed.round} />
+        <main className="w-full pt-28 px-4 md:px-gutter-desktop py-space-xl flex-1">
           <div className="flex flex-col w-full">
             <div className="relative w-full overflow-hidden">
 

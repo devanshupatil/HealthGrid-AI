@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Menu, X } from 'lucide-react'
 import Icon from '../components/Icon'
 import LuxBackground from '../components/LuxBackground'
 import ButtonWithIcon from '@/components/ui/button-with-icon'
@@ -125,6 +126,7 @@ export default function Home({ onLogin }) {
   const [open, setOpen] = useState(false)
   const login = () => setOpen(true)
   const [active, setActive] = useState('')
+  const [menu, setMenu] = useState(false)
 
   useEffect(() => {
     const onScroll = () => {
@@ -171,9 +173,21 @@ export default function Home({ onLogin }) {
               >{label}</a>
             ))}
           </nav>
-          <ButtonWithIcon size="sm" onClick={login}>Login</ButtonWithIcon>
+          <div className="flex items-center gap-space-sm">
+            <div className="hidden sm:block"><ButtonWithIcon size="sm" onClick={login}>Login</ButtonWithIcon></div>
+            <button onClick={() => setMenu((m) => !m)} aria-label={menu ? 'Close menu' : 'Open menu'} aria-expanded={menu} className="md:hidden w-10 h-10 rounded-lg border border-outline-variant/40 flex items-center justify-center text-primary">
+              {menu ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
       </header>
+        <div className={`md:hidden fixed inset-0 top-20 z-30 bg-black/60 backdrop-blur-sm transition-opacity duration-700 ${menu ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={() => setMenu(false)} aria-hidden="true" />
+        <nav className={`md:hidden fixed right-0 top-20 bottom-0 z-40 w-72 max-w-[85%] bg-surface-dim/95 backdrop-blur-xl border-l border-outline-variant/25 px-6 py-space-md flex flex-col transition-transform duration-700 ease-in-out ${menu ? 'translate-x-0' : 'translate-x-full'}`}>
+          {NAV.map(([id, label]) => (
+            <a key={id} href={`#${id}`} onClick={() => setMenu(false)} className={`py-space-sm border-b border-outline-variant/15 font-body-md ${active === id ? 'text-primary' : 'text-on-surface-variant'}`}>{label}</a>
+          ))}
+          <button onClick={() => { setMenu(false); login() }} className="mt-space-md py-space-sm rounded-full bg-primary text-surface-container-lowest font-semibold">Login</button>
+        </nav>
 
       <main id="top" className="relative z-10 pt-20">
         <section className={`${WRAP} pt-20 pb-24 lux-rise grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center`}>
