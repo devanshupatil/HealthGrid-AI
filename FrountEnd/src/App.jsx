@@ -16,6 +16,7 @@ import Dataset from './pages/Dataset'
 import Logs from './pages/Logs'
 import Settings from './pages/Settings'
 import Home from './pages/Home'
+import LuxBackground from './components/LuxBackground'
 import { useFederation } from './fl/useFederation'
 import { FEATURES } from './fl/engine'
 
@@ -32,14 +33,13 @@ export default function App() {
 
   return (
     <>
+      <LuxBackground />
       <Sidebar page={page} setPage={setPage} round={fed.round} totalRounds={TOTAL_ROUNDS} paramsPerUpdate={PARAMS_PER_UPDATE} />
-      <div className="pl-72 flex flex-col min-h-screen">
+      <div className="pl-72 flex flex-col min-h-screen relative z-10">
         <TopBar phase={fed.phase} round={fed.round} user={user} onLogout={() => { setUser(null); setPage('dashboard') }} />
-        <main className="w-full pt-28 px-gutter-desktop py-space-xl flex-1 bg-surface-dim">
+        <main className="w-full pt-28 px-gutter-desktop py-space-xl flex-1">
           <div className="flex flex-col w-full">
             <div className="relative w-full overflow-hidden">
-              <div className="absolute -top-32 left-1/3 w-[600px] h-[340px] bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
-              <div className="absolute top-96 -right-20 w-[420px] h-[420px] bg-tertiary/5 rounded-full blur-[160px] pointer-events-none" />
 
               {page === 'dashboard' && (
                 <>
