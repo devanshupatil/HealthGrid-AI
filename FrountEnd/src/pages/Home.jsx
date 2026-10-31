@@ -88,35 +88,78 @@ const LITERATURE = [
 
 const TEAM = ['Aditya Rathod', 'Purushottam Ghatul', 'Shweta Supe', 'Shweta Patil']
 
+const REMEMBER_KEY = 'healthgrid-username'
+const readSaved = () => { try { return localStorage.getItem(REMEMBER_KEY) || '' } catch { return '' } }
+
 function LoginModal({ onClose, onLogin }) {
-  const [user, setUser] = useState('')
+  const saved = readSaved()
+  const [user, setUser] = useState(saved)
   const [pass, setPass] = useState('')
+  const [show, setShow] = useState(false)
+  const [remember, setRemember] = useState(true)
   const field = 'w-full px-space-md py-space-sm rounded-lg bg-surface-container-lowest border border-outline-variant/40 text-on-surface font-body-md focus:outline-none focus:border-primary'
 
   const submit = (e) => {
     e.preventDefault()
-    if (user.trim() && pass) onLogin(user.trim())
+    if (!user.trim() || !pass) return
+    try {
+      if (remember) localStorage.setItem(REMEMBER_KEY, user.trim())
+      else localStorage.removeItem(REMEMBER_KEY)
+    } catch { /* storage unavailable: skip remembering */ }
+    onLogin(user.trim())
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-gutter-desktop" onClick={onClose}>
-      <form onSubmit={submit} onClick={(e) => e.stopPropagation()} className={`${CARD} w-full max-w-sm flex flex-col gap-space-md border border-outline-variant/30`}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4 md:px-gutter-desktop" onClick={onClose}>
+      <form id="login-form" method="post" action="#" onSubmit={submit} onClick={(e) => e.stopPropagation()} className={`${CARD} w-full max-w-sm flex flex-col gap-space-md border border-outline-variant/30`}>
         <div className="flex items-center justify-between">
           <h2 className="font-headline-md text-headline-md text-on-surface">Login</h2>
           <button type="button" onClick={onClose} aria-label="Close"><Icon name="close" className="text-outline hover:text-primary" /></button>
         </div>
-        <label className="flex flex-col gap-space-xs font-label-caps text-label-caps text-outline uppercase tracking-wider">
+        <label htmlFor="username" className="flex flex-col gap-space-xs font-label-caps text-label-caps text-outline uppercase tracking-wider">
           Username
-          <input autoFocus className={field} value={user} onChange={(e) => setUser(e.target.value)} placeholder="Enter your name" />
+          <input
+            id="username"
+            name="username"
+            type="text"
+            autoComplete="username"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+            autoFocus={!saved}
+            className={field}
+            value={user}
+            onChange={(e) => setUser(e.target.value)}
+            placeholder="Enter your name"
+          />
         </label>
-        <label className="flex flex-col gap-space-xs font-label-caps text-label-caps text-outline uppercase tracking-wider">
+        <label htmlFor="password" className="flex flex-col gap-space-xs font-label-caps text-label-caps text-outline uppercase tracking-wider">
           Password
-          <input type="password" className={field} value={pass} onChange={(e) => setPass(e.target.value)} placeholder="••••••••" />
+          <div className="relative">
+            <input
+              id="password"
+              name="password"
+              type={show ? 'text' : 'password'}
+              autoComplete="current-password"
+              autoFocus={Boolean(saved)}
+              className={`${field} pr-12`}
+              value={pass}
+              onChange={(e) => setPass(e.target.value)}
+              placeholder="••••••••"
+            />
+            <button type="button" onClick={() => setShow((v) => !v)} aria-label={show ? 'Hide password' : 'Show password'} className="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary">
+              <Icon name={show ? 'visibility_off' : 'visibility'} className="text-[20px]" />
+            </button>
+          </div>
+        </label>
+        <label className="flex items-center gap-space-sm font-body-sm text-body-sm text-on-surface-variant cursor-pointer">
+          <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} className="accent-[#f2ca50] w-4 h-4" />
+          Remember my username on this device
         </label>
         <button type="submit" disabled={!user.trim() || !pass} className="px-space-lg py-space-sm rounded-lg bg-primary text-surface-container-lowest font-semibold disabled:opacity-40">
           Login to Dashboard
         </button>
-        <p className="font-telemetry-mono-sm text-telemetry-mono-sm text-outline">Demo login for the prototype: any username and password works. Nothing is stored or sent.</p>
+        <p className="font-telemetry-mono-sm text-telemetry-mono-sm text-outline">Demo login: any username and password works. Your browser or password manager can save and autofill them on any device you sign in to.</p>
       </form>
     </div>
   )
